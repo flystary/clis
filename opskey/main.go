@@ -27,10 +27,10 @@ type Cli struct {
 }
 
 type Comm interface {
-	getToken() 	any
-	getCode() 	any
-	printToken() any
-	printCode() any
+	getToken() 	Comm
+	getCode() 	Comm
+	printToken() Comm
+	printCode() Comm
 }
 
 var (
@@ -70,7 +70,7 @@ func MD5(code string) string {
 }
 
 // GetToken 获取token
-func (c *Cli) getToken() any {
+func (c *Cli) getToken() Comm {
 
 	var result = make(map[string]interface{})
 	var ReqData = make(url.Values)
@@ -101,7 +101,7 @@ func (c *Cli) getToken() any {
 	return c
 }
 
-func (c *Cli) getCode() any {
+func (c *Cli) getCode() Comm {
 	var result = make(map[string]interface{})
 
 	codeURL := "https://aiops.xxxxx.net/api/agent_manage/agent/getRegisterCode?access_token=" + c.Token
@@ -123,12 +123,12 @@ func (c *Cli) getCode() any {
 	return c
 }
 
-func (c *Cli) printCode() any {
+func (c *Cli) printCode() Comm {
 	fmt.Println(c.Code)
 	return c
 }
 
-func (c *Cli) printToken() any {
+func (c *Cli) printToken() Comm {
 	fmt.Println(c.Token)
 	return c
 }
@@ -136,5 +136,5 @@ func (c *Cli) printToken() any {
 func main() {
 	var comm Comm = cli
 	comm.
-		getToken().(*Cli).getCode().(*Cli).printCode()
+		getToken().getCode().printCode()
 }
